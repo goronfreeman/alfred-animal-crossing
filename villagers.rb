@@ -2,14 +2,12 @@ require_relative './nokogiri-master/lib/nokogiri'
 require 'open-uri'
 load 'alfred_feedback.rb'
 
-name = ARGV.first
-doc = Nokogiri::HTML(open('http://animalcrossing.wikia.com/wiki/' + name))
+villager = ARGV.first
+doc = Nokogiri::HTML(open('http://animalcrossing.wikia.com/wiki/' + villager))
 
 table = doc.css('#WikiaArticle table')
 rows = table.css('tr')
 data = {}
-
-# picture = doc.css('.image .image-thumbnail')
 
 rows.each do |r|
   columns = r.css('td')
@@ -23,7 +21,7 @@ feedback.add_item(
   title:        'Gender',
   subtitle:     "#{data['Gender']}",
   uid:          'gender',
-  arg:          'http://animalcrossing.wikia.com/wiki/' + name,
+  arg:          'http://animalcrossing.wikia.com/wiki/' + villager,
   autocomplete: 'AC',
   icon:         {
     type:       'filetype',
@@ -83,7 +81,7 @@ feedback.add_item(
   title:        'Initial phrase',
   subtitle:     "#{data['Initial phrase'].capitalize}",
   uid:          'phrase',
-  arg:          'http://animalcrossing.wikia.com/wiki/' + name,
+  arg:          'http://animalcrossing.wikia.com/wiki/' + villager,
   autocomplete: 'AC',
   icon:         {
     type:       'filetype',
@@ -95,7 +93,7 @@ feedback.add_item(
   title:        'Initial clothes',
   subtitle:     "#{data['Initial clothes']}",
   uid:          'clothes',
-  arg:          'http://animalcrossing.wikia.com/wiki/' + name,
+  arg:          'http://animalcrossing.wikia.com/wiki/' + villager,
   autocomplete: 'AC',
   icon:         {
     type:       'filetype',
@@ -107,7 +105,7 @@ feedback.add_item(
   title:        'Skill',
   subtitle:     "#{data['Skill']}",
   uid:          'skill',
-  arg:          'http://animalcrossing.wikia.com/wiki/' + name,
+  arg:          'http://animalcrossing.wikia.com/wiki/' + villager,
   autocomplete: 'AC',
   icon:         {
     type:       'filetype',
@@ -119,7 +117,7 @@ feedback.add_item(
   title:        'Goal',
   subtitle:     "#{data['Goal']}",
   uid:          'goal',
-  arg:          'http://animalcrossing.wikia.com/wiki/' + name,
+  arg:          'http://animalcrossing.wikia.com/wiki/' + villager,
   autocomplete: 'AC',
   icon:         {
     type:       'filetype',
@@ -133,7 +131,7 @@ feedback.add_item(
                 "#{data['Coffee'].downcase.split(',').at(1) + ', and '}" \
                 "#{data['Coffee'].downcase.split(',').at(2) + '.'}",
   uid:          'coffee',
-  arg:          'http://animalcrossing.wikia.com/wiki/' + name,
+  arg:          'http://animalcrossing.wikia.com/wiki/' + villager,
   autocomplete: 'AC',
   icon:         {
     type:       'filetype',
@@ -172,7 +170,7 @@ feedback.add_item(
                 "#{data['Appearances'].split(',').at(1)}" + ', ' \
                 "#{data['Appearances'].split(',').at(2)}" + ', ',
   uid:          'appearances',
-  arg:          'http://animalcrossing.wikia.com/wiki/' + name,
+  arg:          'http://animalcrossing.wikia.com/wiki/' + villager,
   autocomplete: 'AC',
   icon:         {
     type:       'filetype',
@@ -188,7 +186,7 @@ feedback.add_item(
                 'Spain: ' + "#{data['Regional names'].split.at(2)}" + ', ' \
                 'Italy: ' + "#{data['Regional names'].split.at(3)}",
   uid:          'names',
-  arg:          'http://animalcrossing.wikia.com/wiki/' + name,
+  arg:          'http://animalcrossing.wikia.com/wiki/' + villager,
   autocomplete: 'AC',
   icon:         {
     type:       'filetype',
