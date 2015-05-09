@@ -1,7 +1,6 @@
 require 'rexml/document'
 
 class Feedback
-
   attr_accessor :items
   @@time = Time.now.to_s
 

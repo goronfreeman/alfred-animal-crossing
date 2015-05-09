@@ -45,7 +45,7 @@ feedback.add_item(
   title:        'Appearances',
   subtitle:     "#{data['Appearances']}",
   uid:          'gender',
-  arg:          'http://animalcrossing.wikia.com/wiki/' + painting,
+  arg:          'http://animalcrossing.wikia.com/wiki/Animal_Crossing_(series)#Games',
   autocomplete: 'AC',
   icon:         {
     type:       'filetype',

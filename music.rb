@@ -21,7 +21,7 @@ feedback.add_item(
   title:        'Games',
   subtitle:     "#{data['Games']}",
   uid:          'gender',
-  arg:          'http://animalcrossing.wikia.com/wiki/' + music,
+  arg:          'http://animalcrossing.wikia.com/wiki/Animal_Crossing_(series)#Games',
   autocomplete: 'AC',
   icon:         {
     type:       'filetype',

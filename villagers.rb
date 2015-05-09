@@ -170,7 +170,7 @@ feedback.add_item(
                 "#{data['Appearances'].split(',').at(1)}" + ', ' \
                 "#{data['Appearances'].split(',').at(2)}" + ', ',
   uid:          'appearances',
-  arg:          'http://animalcrossing.wikia.com/wiki/' + villager,
+  arg:          'http://animalcrossing.wikia.com/wiki/Animal_Crossing_(series)#Games',
   autocomplete: 'AC',
   icon:         {
     type:       'filetype',
