@@ -3,12 +3,13 @@ require 'open-uri'
 load 'alfred_feedback.rb'
 
 name = ARGV.first
-# exit 1 unless code_from_user.length == 4
 doc = Nokogiri::HTML(open('http://animalcrossing.wikia.com/wiki/' + name))
 
 table = doc.css('#WikiaArticle table')
 rows = table.css('tr')
 data = {}
+
+# picture = doc.css('.image .image-thumbnail')
 
 rows.each do |r|
   columns = r.css('td')
@@ -21,20 +22,20 @@ feedback = Feedback.new
 feedback.add_item(
   title:        'Gender',
   subtitle:     "#{data['Gender']}",
-  uid:          'animalcrossing',
+  uid:          'gender',
   arg:          'http://animalcrossing.wikia.com/wiki/' + name,
   autocomplete: 'AC',
   icon:         {
     type:       'filetype',
-    name:       'gender.png'
+    name:       'icon.png'
   }
 )
 
 feedback.add_item(
   title:        'Personality',
   subtitle:     "#{data['Personality']}",
-  uid:          'animalcrossing',
-  arg:          'http://animalcrossing.wikia.com/wiki/' + name,
+  uid:          'personality',
+  arg:          'http://animalcrossing.wikia.com/wiki/' + "#{data['Personality']}",
   autocomplete: 'AC',
   icon:         {
     type:       'filetype',
@@ -45,8 +46,8 @@ feedback.add_item(
 feedback.add_item(
   title:        'Species',
   subtitle:     "#{data['Species']}",
-  uid:          'animalcrossing',
-  arg:          'http://animalcrossing.wikia.com/wiki/' + name,
+  uid:          'species',
+  arg:          'http://animalcrossing.wikia.com/wiki/' + "#{data['Species']}",
   autocomplete: 'AC',
   icon:         {
     type:       'filetype',
@@ -57,20 +58,20 @@ feedback.add_item(
 feedback.add_item(
   title:        'Birthday',
   subtitle:     "#{data['Birthday']}",
-  uid:          'animalcrossing',
-  arg:          'http://animalcrossing.wikia.com/wiki/' + name,
+  uid:          'birthday',
+  arg:          'http://animalcrossing.wikia.com/wiki/' + "#{data['Birthday'].split.at(0)}",
   autocomplete: 'AC',
   icon:         {
     type:       'filetype',
-    name:       'birthday.png'
+    name:       'icon.png'
   }
 )
 
 feedback.add_item(
   title:        'Star sign',
   subtitle:     "#{data['Star sign']}",
-  uid:          'animalcrossing',
-  arg:          'http://animalcrossing.wikia.com/wiki/' + name,
+  uid:          'star',
+  arg:          'http://animalcrossing.wikia.com/wiki/' + "#{data['Star sign']}",
   autocomplete: 'AC',
   icon:         {
     type:       'filetype',
@@ -80,8 +81,8 @@ feedback.add_item(
 
 feedback.add_item(
   title:        'Initial phrase',
-  subtitle:     "#{data['Initial phrase']}",
-  uid:          'animalcrossing',
+  subtitle:     "#{data['Initial phrase'].capitalize}",
+  uid:          'phrase',
   arg:          'http://animalcrossing.wikia.com/wiki/' + name,
   autocomplete: 'AC',
   icon:         {
@@ -93,7 +94,7 @@ feedback.add_item(
 feedback.add_item(
   title:        'Initial clothes',
   subtitle:     "#{data['Initial clothes']}",
-  uid:          'animalcrossing',
+  uid:          'clothes',
   arg:          'http://animalcrossing.wikia.com/wiki/' + name,
   autocomplete: 'AC',
   icon:         {
@@ -105,7 +106,7 @@ feedback.add_item(
 feedback.add_item(
   title:        'Skill',
   subtitle:     "#{data['Skill']}",
-  uid:          'animalcrossing',
+  uid:          'skill',
   arg:          'http://animalcrossing.wikia.com/wiki/' + name,
   autocomplete: 'AC',
   icon:         {
@@ -117,7 +118,7 @@ feedback.add_item(
 feedback.add_item(
   title:        'Goal',
   subtitle:     "#{data['Goal']}",
-  uid:          'animalcrossing',
+  uid:          'goal',
   arg:          'http://animalcrossing.wikia.com/wiki/' + name,
   autocomplete: 'AC',
   icon:         {
@@ -128,8 +129,10 @@ feedback.add_item(
 
 feedback.add_item(
   title:        'Coffee',
-  subtitle:     "#{data['Coffee']}",
-  uid:          'animalcrossing',
+  subtitle:     "#{data['Coffee'].split(',').at(0) + ' beans, '}" \
+                "#{data['Coffee'].downcase.split(',').at(1) + ', and '}" \
+                "#{data['Coffee'].downcase.split(',').at(2) + '.'}",
+  uid:          'coffee',
   arg:          'http://animalcrossing.wikia.com/wiki/' + name,
   autocomplete: 'AC',
   icon:         {
@@ -141,8 +144,8 @@ feedback.add_item(
 feedback.add_item(
   title:        'Style',
   subtitle:     "#{data['Style']}",
-  uid:          'animalcrossing',
-  arg:          'http://animalcrossing.wikia.com/wiki/' + name,
+  uid:          'style',
+  arg:          'http://animalcrossing.wikia.com/wiki/Clothing_Styles#' + "#{data['Style']}",
   autocomplete: 'AC',
   icon:         {
     type:       'filetype',
@@ -153,8 +156,8 @@ feedback.add_item(
 feedback.add_item(
   title:        'Favorite song',
   subtitle:     "#{data['Favorite song']}",
-  uid:          'animalcrossing',
-  arg:          'http://animalcrossing.wikia.com/wiki/' + name,
+  uid:          'song',
+  arg:          'http://animalcrossing.wikia.com/wiki/' + "#{data['Favorite song']}",
   autocomplete: 'AC',
   icon:         {
     type:       'filetype',
@@ -164,8 +167,11 @@ feedback.add_item(
 
 feedback.add_item(
   title:        'Appearances',
-  subtitle:     "#{data['Appearances']}",
-  uid:          'animalcrossing',
+  subtitle:     # FIX THESE
+                "#{data['Appearances'].split(',').at(0)}" + ', ' \
+                "#{data['Appearances'].split(',').at(1)}" + ', ' \
+                "#{data['Appearances'].split(',').at(2)}" + ', ',
+  uid:          'appearances',
   arg:          'http://animalcrossing.wikia.com/wiki/' + name,
   autocomplete: 'AC',
   icon:         {
@@ -176,8 +182,12 @@ feedback.add_item(
 
 feedback.add_item(
   title:        'Regional names',
-  subtitle:     "#{data['Regional names']}",
-  uid:          'animalcrossing',
+  subtitle:     # FIX THESE
+                'France: ' + "#{data['Regional names'].split.at(0)}" + ', ' \
+                'Germany: ' + "#{data['Regional names'].split.at(1)}" + ', ' \
+                'Spain: ' + "#{data['Regional names'].split.at(2)}" + ', ' \
+                'Italy: ' + "#{data['Regional names'].split.at(3)}",
+  uid:          'names',
   arg:          'http://animalcrossing.wikia.com/wiki/' + name,
   autocomplete: 'AC',
   icon:         {
@@ -187,20 +197,3 @@ feedback.add_item(
 )
 
 puts feedback.to_xml
-
-# puts data
-
-# Gender
-# Personality
-# Species
-# Birthday
-# Star sign
-# Initial phrase
-# Initial clothes
-# Skill
-# Goal
-# Coffee
-# Style
-# Favorite song
-# Appearances
-# Regional names
