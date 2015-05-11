@@ -12,7 +12,20 @@ data = {}
 rows.each do |r|
   columns = r.css('td')
   if columns.length == 2
-    data[columns[0].content.lstrip.chomp] = columns[1].content.lstrip.chomp
+    key = columns[0].content.lstrip.chomp
+
+    if key == 'Appearances'
+      rval = []
+      appearances = columns[1].css('a')
+      appearances.each do |appearance|
+        rval << (appearance.content.lstrip.chomp)
+      end
+
+      data[key] = rval
+
+    else
+      data[key] = columns[1].content.lstrip.chomp
+    end
   end
 end
 
@@ -25,7 +38,7 @@ feedback.add_item(
   autocomplete: 'AC',
   icon:         {
     type:       'filetype',
-    name:       'icon.png'
+    name:       './icons/gender.png'
   }
 )
 
@@ -37,7 +50,7 @@ feedback.add_item(
   autocomplete: 'AC',
   icon:         {
     type:       'filetype',
-    name:       'icon.png'
+    name:       './icons/personality.png'
   }
 )
 
@@ -49,7 +62,7 @@ feedback.add_item(
   autocomplete: 'AC',
   icon:         {
     type:       'filetype',
-    name:       'icon.png'
+    name:       './icons/species.png'
   }
 )
 
@@ -61,7 +74,7 @@ feedback.add_item(
   autocomplete: 'AC',
   icon:         {
     type:       'filetype',
-    name:       'icon.png'
+    name:       './icons/birthday.png'
   }
 )
 
@@ -73,7 +86,7 @@ feedback.add_item(
   autocomplete: 'AC',
   icon:         {
     type:       'filetype',
-    name:       'icon.png'
+    name:       './icons/star.png'
   }
 )
 
@@ -85,7 +98,7 @@ feedback.add_item(
   autocomplete: 'AC',
   icon:         {
     type:       'filetype',
-    name:       'icon.png'
+    name:       './icons/phrase.png'
   }
 )
 
@@ -97,7 +110,7 @@ feedback.add_item(
   autocomplete: 'AC',
   icon:         {
     type:       'filetype',
-    name:       'icon.png'
+    name:       './icons/clothes.png'
   }
 )
 
@@ -109,7 +122,7 @@ feedback.add_item(
   autocomplete: 'AC',
   icon:         {
     type:       'filetype',
-    name:       'icon.png'
+    name:       './icons/skill.png'
   }
 )
 
@@ -121,7 +134,7 @@ feedback.add_item(
   autocomplete: 'AC',
   icon:         {
     type:       'filetype',
-    name:       'icon.png'
+    name:       './icons/goal.png'
   }
 )
 
@@ -135,7 +148,7 @@ feedback.add_item(
   autocomplete: 'AC',
   icon:         {
     type:       'filetype',
-    name:       'icon.png'
+    name:       './icons/coffee.png'
   }
 )
 
@@ -147,7 +160,7 @@ feedback.add_item(
   autocomplete: 'AC',
   icon:         {
     type:       'filetype',
-    name:       'icon.png'
+    name:       './icons/style.png'
   }
 )
 
@@ -159,22 +172,19 @@ feedback.add_item(
   autocomplete: 'AC',
   icon:         {
     type:       'filetype',
-    name:       'icon.png'
+    name:       './icons/song.png'
   }
 )
 
 feedback.add_item(
   title:        'Appearances',
-  subtitle:     # FIX THESE
-                "#{data['Appearances'].split(',').at(0)}" + ', ' \
-                "#{data['Appearances'].split(',').at(1)}" + ', ' \
-                "#{data['Appearances'].split(',').at(2)}" + ', ',
+  subtitle:     "#{data['Appearances']}",
   uid:          'appearances',
   arg:          'http://animalcrossing.wikia.com/wiki/Animal_Crossing_(series)#Games',
   autocomplete: 'AC',
   icon:         {
     type:       'filetype',
-    name:       'icon.png'
+    name:       './icons/appearances.png'
   }
 )
 
@@ -190,8 +200,9 @@ feedback.add_item(
   autocomplete: 'AC',
   icon:         {
     type:       'filetype',
-    name:       'icon.png'
+    name:       './icons/region.png'
   }
 )
 
 puts feedback.to_xml
+# puts data
