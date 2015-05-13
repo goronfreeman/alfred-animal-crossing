@@ -83,7 +83,7 @@ if villager
     when 'Phrase'
       feedback.add_item(
         title:        'Initial phrase',
-        subtitle:     "#{@data['Initial phrase']}",
+        subtitle:     "#{@data['Initial phrase'].capitalize}",
         uid:          'phrase',
         arg:          'http://animalcrossing.wikia.com/wiki/' + villager,
         # autocomplete: 'AC',
@@ -109,75 +109,85 @@ if villager
       puts feedback.to_xml
 
     when 'Skill'
-      feedback.add_item(
-        title:        'Skill',
-        subtitle:     "#{@data['Skill']}",
-        uid:          'skill',
-        arg:          'http://animalcrossing.wikia.com/wiki/' + villager,
-        # autocomplete: 'AC',
-        icon:         {
-          type:       'filetype',
-          name:       './icons/skill.png'
-        }
-      )
+      unless @data['Skill'].nil?
+        feedback.add_item(
+          title:        'Skill',
+          subtitle:     "#{@data['Skill']}",
+          uid:          'skill',
+          arg:          'http://animalcrossing.wikia.com/wiki/' + villager,
+          # autocomplete: 'AC',
+          icon:         {
+            type:       'filetype',
+            name:       './icons/skill.png'
+          }
+        )
+      end
       puts feedback.to_xml
 
     when 'Goal'
-      feedback.add_item(
-        title:        'Goal',
-        subtitle:     "#{@data['Goal']}",
-        uid:          'goal',
-        arg:          'http://animalcrossing.wikia.com/wiki/' + villager,
-        # autocomplete: 'AC',
-        icon:         {
-          type:       'filetype',
-          name:       './icons/goal.png'
-        }
-      )
+      unless @data['Goal'].nil?
+        feedback.add_item(
+          title:        'Goal',
+          subtitle:     "#{@data['Goal']}",
+          uid:          'goal',
+          arg:          'http://animalcrossing.wikia.com/wiki/' + villager,
+          # autocomplete: 'AC',
+          icon:         {
+            type:       'filetype',
+            name:       './icons/goal.png'
+          }
+        )
+      end
       puts feedback.to_xml
 
     when 'Coffee'
-      feedback.add_item(
-        title:        'Coffee',
-        subtitle:     "#{@data['Coffee'].split(',').at(0) + ' beans, '}" \
-                      "#{@data['Coffee'].downcase.split(',').at(1) + ', and '}" \
-                      "#{@data['Coffee'].downcase.split(',').at(2) + '.'}",
-        uid:          'coffee',
-        arg:          'http://animalcrossing.wikia.com/wiki/' + villager,
-        # autocomplete: 'AC',
-        icon:         {
-          type:       'filetype',
-          name:       './icons/coffee.png'
-        }
-      )
+      unless @data['Coffee'].nil?
+        feedback.add_item(
+          title:        'Coffee',
+          subtitle:     "#{@data['Coffee'].split(',').at(0) + ' beans, '}" \
+                        "#{@data['Coffee'].downcase.split(',').at(1) + ', and '}" \
+                        "#{@data['Coffee'].downcase.split(',').at(2) + '.'}",
+          uid:          'coffee',
+          arg:          'http://animalcrossing.wikia.com/wiki/' + villager,
+          # autocomplete: 'AC',
+          icon:         {
+            type:       'filetype',
+            name:       './icons/coffee.png'
+          }
+        )
+      end
       puts feedback.to_xml
 
     when 'Style'
-      feedback.add_item(
-        title:        'Style',
-        subtitle:     "#{@data['Style']}",
-        uid:          'style',
-        arg:          'http://animalcrossing.wikia.com/wiki/Clothing_Styles#' + "#{@data['Style']}",
-        # autocomplete: 'AC',
-        icon:         {
-          type:       'filetype',
-          name:       './icons/style.png'
-        }
-      )
+      unless @data['Style'].nil?
+        feedback.add_item(
+          title:        'Style',
+          subtitle:     "#{@data['Style']}",
+          uid:          'style',
+          arg:          'http://animalcrossing.wikia.com/wiki/Clothing_Styles#' + "#{@data['Style']}",
+          # autocomplete: 'AC',
+          icon:         {
+            type:       'filetype',
+            name:       './icons/style.png'
+          }
+        )
+      end
       puts feedback.to_xml
 
     when 'Song'
-      feedback.add_item(
-        title:        'Favorite song',
-        subtitle:     "#{@data['Favorite song']}",
-        uid:          'song',
-        arg:          'http://animalcrossing.wikia.com/wiki/' + "#{@data['Favorite song']}",
-        # autocomplete: 'AC',
-        icon:         {
-          type:       'filetype',
-          name:       './icons/song.png'
-        }
-      )
+      unless @data['Favorite song'].nil?
+        feedback.add_item(
+          title:        'Favorite song',
+          subtitle:     "#{@data['Favorite song']}",
+          uid:          'song',
+          arg:          'http://animalcrossing.wikia.com/wiki/' + "#{@data['Favorite song']}",
+          # autocomplete: 'AC',
+          icon:         {
+            type:       'filetype',
+            name:       './icons/song.png'
+          }
+        )
+      end
       puts feedback.to_xml
 
     when 'Appearances'
@@ -201,7 +211,7 @@ if villager
       end
 
       feedback.add_item(
-        title:        'Names',
+        title:        'Regional names',
         subtitle:     subtitle_content.join(', '),
         uid:          'region',
         arg:          'http://animalcrossing.wikia.com/wiki/' + villager,
@@ -251,33 +261,37 @@ if villager
       }
     )
 
-    feedback.add_item(
-      title:        'Birthday',
-      subtitle:     "#{@data['Birthday']}",
-      uid:          'birthday',
-      arg:          'http://animalcrossing.wikia.com/wiki/' + "#{@data['Birthday'].split.at(0)}",
-      # autocomplete: 'AC',
-      icon:         {
-        type:       'filetype',
-        name:       './icons/birthday.png'
-      }
-    )
+    unless @data['Birthday'] == 'Unknown'
+      feedback.add_item(
+        title:        'Birthday',
+        subtitle:     "#{@data['Birthday']}",
+        uid:          'birthday',
+        arg:          'http://animalcrossing.wikia.com/wiki/' + "#{@data['Birthday'].split.at(0)}",
+        # autocomplete: 'AC',
+        icon:         {
+          type:       'filetype',
+          name:       './icons/birthday.png'
+        }
+      )
+    end
 
-    feedback.add_item(
-      title:        'Star sign',
-      subtitle:     "#{@data['Star sign']}",
-      uid:          'star',
-      arg:          'http://animalcrossing.wikia.com/wiki/' + "#{@data['Star sign']}",
-      # autocomplete: 'AC',
-      icon:         {
-        type:       'filetype',
-        name:       './icons/star.png'
-      }
-    )
+    unless @data['Star sign'] == 'Unknown'
+      feedback.add_item(
+        title:        'Star sign',
+        subtitle:     "#{@data['Star sign']}",
+        uid:          'star',
+        arg:          'http://animalcrossing.wikia.com/wiki/' + "#{@data['Star sign']}",
+        # autocomplete: 'AC',
+        icon:         {
+          type:       'filetype',
+          name:       './icons/star.png'
+        }
+      )
+    end
 
     feedback.add_item(
       title:        'Initial phrase',
-      subtitle:     "#{@data['Initial phrase']}",
+      subtitle:     "#{@data['Initial phrase'].capitalize}",
       uid:          'phrase',
       arg:          'http://animalcrossing.wikia.com/wiki/' + villager,
       # autocomplete: 'AC',
@@ -299,67 +313,77 @@ if villager
       }
     )
 
-    feedback.add_item(
-      title:        'Skill',
-      subtitle:     "#{@data['Skill']}",
-      uid:          'skill',
-      arg:          'http://animalcrossing.wikia.com/wiki/' + villager,
-      # autocomplete: 'AC',
-      icon:         {
-        type:       'filetype',
-        name:       './icons/skill.png'
-      }
-    )
+    unless @data['Skill'].nil?
+      feedback.add_item(
+        title:        'Skill',
+        subtitle:     "#{@data['Skill']}",
+        uid:          'skill',
+        arg:          'http://animalcrossing.wikia.com/wiki/' + villager,
+        # autocomplete: 'AC',
+        icon:         {
+          type:       'filetype',
+          name:       './icons/skill.png'
+        }
+      )
+    end
 
-    feedback.add_item(
-      title:        'Goal',
-      subtitle:     "#{@data['Goal']}",
-      uid:          'goal',
-      arg:          'http://animalcrossing.wikia.com/wiki/' + villager,
-      # autocomplete: 'AC',
-      icon:         {
-        type:       'filetype',
-        name:       './icons/goal.png'
-      }
-    )
+    unless @data['Goal'].nil?
+      feedback.add_item(
+        title:        'Goal',
+        subtitle:     "#{@data['Goal']}",
+        uid:          'goal',
+        arg:          'http://animalcrossing.wikia.com/wiki/' + villager,
+        # autocomplete: 'AC',
+        icon:         {
+          type:       'filetype',
+          name:       './icons/goal.png'
+        }
+      )
+    end
 
-    feedback.add_item(
-      title:        'Coffee',
-      subtitle:     "#{@data['Coffee'].split(',').at(0) + ' beans, '}" \
-                    "#{@data['Coffee'].downcase.split(',').at(1) + ', and '}" \
-                    "#{@data['Coffee'].downcase.split(',').at(2) + '.'}",
-      uid:          'coffee',
-      arg:          'http://animalcrossing.wikia.com/wiki/' + villager,
-      # autocomplete: 'AC',
-      icon:         {
-        type:       'filetype',
-        name:       './icons/coffee.png'
-      }
-    )
+    unless @data['Coffee'].nil?
+      feedback.add_item(
+        title:        'Coffee',
+        subtitle:     "#{@data['Coffee'].split(',').at(0) + ' beans, '}" \
+                      "#{@data['Coffee'].downcase.split(',').at(1) + ', and '}" \
+                      "#{@data['Coffee'].downcase.split(',').at(2) + '.'}",
+        uid:          'coffee',
+        arg:          'http://animalcrossing.wikia.com/wiki/' + villager,
+        # autocomplete: 'AC',
+        icon:         {
+          type:       'filetype',
+          name:       './icons/coffee.png'
+        }
+      )
+    end
 
-    feedback.add_item(
-      title:        'Style',
-      subtitle:     "#{@data['Style']}",
-      uid:          'style',
-      arg:          'http://animalcrossing.wikia.com/wiki/Clothing_Styles#' + "#{@data['Style']}",
-      # autocomplete: 'AC',
-      icon:         {
-        type:       'filetype',
-        name:       './icons/style.png'
-      }
-    )
+    unless @data['Style'].nil?
+      feedback.add_item(
+        title:        'Style',
+        subtitle:     "#{@data['Style']}",
+        uid:          'style',
+        arg:          'http://animalcrossing.wikia.com/wiki/Clothing_Styles#' + "#{@data['Style']}",
+        # autocomplete: 'AC',
+        icon:         {
+          type:       'filetype',
+          name:       './icons/style.png'
+        }
+      )
+    end
 
-    feedback.add_item(
-      title:        'Favorite song',
-      subtitle:     "#{@data['Favorite song']}",
-      uid:          'song',
-      arg:          'http://animalcrossing.wikia.com/wiki/' + "#{@data['Favorite song']}",
-      # autocomplete: 'AC',
-      icon:         {
-        type:       'filetype',
-        name:       './icons/song.png'
-      }
-    )
+    unless @data['Favorite song'].nil?
+      feedback.add_item(
+        title:        'Favorite song',
+        subtitle:     "#{@data['Favorite song']}",
+        uid:          'song',
+        arg:          'http://animalcrossing.wikia.com/wiki/' + "#{@data['Favorite song']}",
+        # autocomplete: 'AC',
+        icon:         {
+          type:       'filetype',
+          name:       './icons/song.png'
+        }
+      )
+    end
 
     feedback.add_item(
       title:        'Appearances',
@@ -379,7 +403,7 @@ if villager
     end
 
     feedback.add_item(
-      title:        'Names',
+      title:        'Regional names',
       subtitle:     subtitle_content.join(', '),
       uid:          'region',
       arg:          'http://animalcrossing.wikia.com/wiki/' + villager,
