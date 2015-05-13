@@ -2,8 +2,8 @@ require_relative './nokogiri-master/lib/nokogiri'
 require 'open-uri'
 
 module Parser
-  def self.parse(villagerName)
-    doc = Nokogiri::HTML(open('http://animalcrossing.wikia.com/wiki/' + villagerName))
+  def self.parse(villager)
+    doc = Nokogiri::HTML(open('http://animalcrossing.wikia.com/wiki/' + villager))
 
     table = doc.css('#WikiaArticle table')
     rows = table.css('tr')
@@ -23,14 +23,18 @@ module Parser
 
           @data[key] = rval
 
-        # elsif key == 'Regional names'
-        #   rval = []
-        #   names = columns[1].css('[title~=France]')
-        #   names.each do |name|
-        #     rval << (name.content.lstrip.chomp)
-        #   end
-        #
-        #   @data[key] = rval
+        elsif key == 'Regional names'
+          @data[key] = {}
+          countries = columns[1].css('a')
+          names = columns[1].children
+          children_index = 2
+          countries.each do |country|
+            country_name = country['title'].to_s
+            name = names[children_index].to_s
+            children_index += 4
+
+            @data[key][country_name.lstrip.rstrip] = name.lstrip.rstrip
+          end
 
         else
           @data[key] = columns[1].content.lstrip.chomp

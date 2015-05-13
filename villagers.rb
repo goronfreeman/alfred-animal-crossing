@@ -1,7 +1,7 @@
 load 'alfred_feedback.rb'
 load 'parser.rb'
 
-arg2, villager = ARGV
+villager, arg2 = ARGV
 
 if villager
   @data = Parser.parse(villager)
@@ -15,7 +15,7 @@ if villager
       subtitle:     "#{@data['Gender']}",
       uid:          'gender',
       arg:          'http://animalcrossing.wikia.com/wiki/' + villager,
-      autocomplete: 'AC',
+      autocomplete: villager + 'gender',
       icon:         {
         type:       'filetype',
         name:       './icons/gender.png'
@@ -65,10 +65,10 @@ if villager
     )
     puts feedback.to_xml
 
-  when 'Star sign'
+  when 'Sign'
     feedback.add_item(
       title:        'Star sign',
-      subtitle:     "#{@data['Star sign']}",
+      subtitle:     "#{@data['Sign']}",
       uid:          'star',
       arg:          'http://animalcrossing.wikia.com/wiki/' + "#{@data['Star sign']}",
       autocomplete: 'AC',
@@ -79,10 +79,10 @@ if villager
     )
     puts feedback.to_xml
 
-  when 'Initial phrase'
+  when 'Phrase'
     feedback.add_item(
       title:        'Initial phrase',
-      subtitle:     "#{@data['Initial phrase'].capitalize}",
+      subtitle:     "#{@data['Initial phrase']}",
       uid:          'phrase',
       arg:          'http://animalcrossing.wikia.com/wiki/' + villager,
       autocomplete: 'AC',
@@ -93,7 +93,7 @@ if villager
     )
     puts feedback.to_xml
 
-  when 'Initial clothes'
+  when 'Clothes'
     feedback.add_item(
       title:        'Initial clothes',
       subtitle:     "#{@data['Initial clothes']}",
@@ -165,7 +165,7 @@ if villager
     )
     puts feedback.to_xml
 
-  when 'Favorite song'
+  when 'Song'
     feedback.add_item(
       title:        'Favorite song',
       subtitle:     "#{@data['Favorite song']}",
@@ -193,14 +193,15 @@ if villager
     )
     puts feedback.to_xml
 
-  when 'Regional names'
+  when 'Names'
+    subtitle_content = []
+    @data['Regional names'].each do |key, val|
+      subtitle_content.push(key + ': ' + val)
+    end
+
     feedback.add_item(
-      title:        'Regional names',
-      subtitle:     # FIX THESE
-                    'France: ' + "#{@data['Regional names'].split.at(0)}" + ', ' \
-                    'Germany: ' + "#{@data['Regional names'].split.at(1)}" + ', ' \
-                    'Spain: ' + "#{@data['Regional names'].split.at(2)}" + ', ' \
-                    'Italy: ' + "#{@data['Regional names'].split.at(3)}",
+      title:        'Names',
+      subtitle:     subtitle_content.join(', '),
       uid:          'region',
       arg:          'http://animalcrossing.wikia.com/wiki/' + villager,
       autocomplete: 'AC',
@@ -370,13 +371,14 @@ if villager
       }
     )
 
+    subtitle_content = []
+    @data['Regional names'].each do |key, val|
+      subtitle_content.push(key + ': ' + val)
+    end
+
     feedback.add_item(
-      title:        'Regional names',
-      subtitle:     # FIX THESE
-                    'France: ' + "#{@data['Regional names'].split.at(0)}" + ', ' \
-                    'Germany: ' + "#{@data['Regional names'].split.at(1)}" + ', ' \
-                    'Spain: ' + "#{@data['Regional names'].split.at(2)}" + ', ' \
-                    'Italy: ' + "#{@data['Regional names'].split.at(3)}",
+      title:        'Names',
+      subtitle:     subtitle_content.join(', '),
       uid:          'region',
       arg:          'http://animalcrossing.wikia.com/wiki/' + villager,
       autocomplete: 'AC',
