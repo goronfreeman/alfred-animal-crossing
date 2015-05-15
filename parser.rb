@@ -12,13 +12,13 @@ module Parser
     rows.each do |r|
       columns = r.css('td')
       if columns.length == 2
-        key = columns[0].content.lstrip.chomp
+        key = columns[0].content.lstrip.rstrip
 
         if key == 'Appearances'
           rval = []
           appearances = columns[1].css('a')
           appearances.each do |appearance|
-            rval << (appearance.content.lstrip.chomp)
+            rval << (appearance.content.lstrip.rstrip)
           end
 
           @data[key] = rval
@@ -37,7 +37,7 @@ module Parser
           end
 
         else
-          @data[key] = columns[1].content.lstrip.chomp
+          @data[key] = columns[1].content.lstrip.rstrip
         end
       end
     end
