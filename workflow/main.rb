@@ -28,15 +28,15 @@ module AlfredAC
         if category
           categories = find_categories(data, category)
 
-          return no_match_json if categories.length.zero?
+          return no_match_json if categories.empty?
           find_categories(data, category).each { |k, v| category_json(k, v) }
         else
-          data.each { |k, v|category_json(k, v) }
+          data.each { |k, v| category_json(k, v) }
         end
       else
         villagers = find_matches(query)
 
-        return no_match_json if villagers.length.zero?
+        return no_match_json if villagers.empty?
         villagers.each { |villager| villager_json(villager) }
       end
     ensure
@@ -46,7 +46,6 @@ module AlfredAC
     private
 
     def find_table(villager)
-      # TODO: Get table with gender, personality, species
       fetch_document(villager).css('.WikiaArticle table').first
     end
 
@@ -55,15 +54,35 @@ module AlfredAC
     end
 
     def find_columns(rows)
-      data = {}
-
-      rows.each do |row|
-        columns = row.css('td')
-        next unless columns.size == 2
-        data[columns.first.content.strip] = columns.last.content.strip
+      {}.tap do |hash|
+        rows.each do |row|
+          columns = row.css('td')
+          next unless columns.size == 2 || subtable?(columns)
+          subtable?(columns) ? subtable_info(columns, hash) : table_info(columns, hash)
+        end
       end
+    end
 
-      data
+    def subtable?(columns)
+      columns.css('table tr').any?
+    end
+
+    def table_info(columns, hash)
+      hash[columns.first.content.strip] = columns.last.content.strip
+    end
+
+    def subtable_info(columns, hash)
+      rows = columns.css('table tr')
+      keys = format_arr(rows.first)
+      vals = format_arr(rows.last)
+
+      keys.each.with_index do |k, i|
+        hash[k] = vals[i]
+      end
+    end
+
+    def format_arr(arr)
+      arr.content.delete("\n").strip.split
     end
 
     def find_data(query)
@@ -80,11 +99,11 @@ module AlfredAC
     end
 
     def find_matches(query)
-      AlfredAC::Villagers.names.select { |name| name.downcase.start_with?(query.downcase) }
+      AlfredAC::Villagers.info.keys.select { |name| name.downcase.start_with?(query.downcase) }
     end
 
     def villager_match(name)
-      AlfredAC::Villagers.names.include?(name.capitalize)
+      AlfredAC::Villagers.info.keys.include?(name.capitalize)
     end
 
     def find_categories(data, category)
