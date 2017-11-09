@@ -23,6 +23,7 @@ module AlfredAC
     end
 
     def search
+      # TODO: Account for Agent S and Wart Jr.
       if villager_match(query)
         data = find_data(query)
 
@@ -47,7 +48,8 @@ module AlfredAC
     private
 
     def find_table(villager)
-      fetch_document(villager).css('.WikiaArticle table').first
+      # Select table by text content because there is no other good way.
+      fetch_document(villager).at_css('.WikiaArticle table:contains("Initial phrase")')
     end
 
     def find_rows(table)
