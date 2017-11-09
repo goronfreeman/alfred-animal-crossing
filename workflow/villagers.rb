@@ -1,274 +1,49 @@
+require 'open-uri'
+
 module AlfredAC
   module Villagers
-    @@villager_names = %w(
-      Ace
-      Admiral
-      Alfonso
-      Alli
-      Amelia
-      Anchovy
-      Anicotti
-      Ankha
-      Annalise
-      Apollo
-      Astrid
-      Aurora
-      Ava
-      Axel
-      Aziz
-      Baabara
-      Bangle
-      Bea
-      Belle
-      Bertha
-      Bessie
-      Betty
-      Biff
-      Bill
-      Billy
-      Biskit
-      Bitty
-      Blaire
-      Blanca
-      Blathers
-      Bliss
-      Bluebear
-      Bob
-      Bones
-      Boomer
-      Boots
-      Boris
-      Bubbles
-      Buck
-      Bud
-      Bunnie
-      Butch
-      Buzz
-      Camofrog
-      Candi
-      Carmen
-      Carrie
-      Cashmere
-      Cesar
-      Cheri
-      Chevre
-      Chico
-      Chief
-      Chip
-      Chow
-      Chuck
-      Claude
-      Cleo
-      Cobb
-      Coco
-      Cookie
-      Cousteau
-      Cube
-      Cupcake
-      Curly
-      Cyrano
-      Daisy
-      Deena
-      Derwin
-      Dizzy
-      Dobie
-      Doc
-      Don\ Resetti
-      Dora
-      Dotty
-      Dozer
-      Drift
-      Ed
-      Egbert
-      Elina
-      Ellie
-      Elmer
-      Eloise
-      Emerald
-      Eunice
-      Faith
-      Fang
-      Farley
-      Filbert
-      Flash
-      Flossie
-      Franklin
-      Freckles
-      Freya
-      Friga
-      Gabi
-      Gaston
-      Genji
-      Goldie
-      Gonzo
-      Goose
-      Gracie
-      Grizzly
-      Groucho
-      Gruff
-      Gulliver
-      Gwen
-      Hambo
-      Hank
-      Hazel
-      Hector
-      Hopper
-      Hornsby
-      Huck
-      Huggy
-      Hugh
-      Iggy
-      Jack
-      Jambette
-      Jay
-      Jeremiah
-      Jingle
-      Joan
-      Joey
-      June
-      Kabuki
-      Kapp'n
-      Katie
-      Katrina
-      Kiki
-      Kitt
-      Kitty
-      Kody
-      Leigh
-      Leopold
-      Limberg
-      Liz
-      Lobo
-      Louie
-      Lucky
-      Lucy
-      Lulu
-      Mabel
-      Maddie
-      Maelle
-      Mallary
-      Maple
-      Marcy
-      Mathilda
-      Midge
-      Mint
-      Mitzi
-      Monique
-      Monty
-      Murphy
-      Nate
-      Nibbles
-      Nosegay
-      O'Hare
-      Octavian
-      Olive
-      Olivia
-      Opal
-      Otis
-      Oxford
-      Ozzie
-      Pango
-      Paolo
-      Parents
-      Pate
-      Patty
-      Peaches
-      Peanut
-      Pecan
-      Peewee
-      Pelly
-      Penny
-      Pete
-      Petunia
-      Phyllis
-      Pierce
-      Pigleg
-      Pinky
-      Piper
-      Pippy
-      Player
-      Plucky
-      Pompom
-      Poncho
-      Porter
-      Portia
-      Prince
-      Puck
-      Puddles
-      Pudge
-      Punchy
-      Purrl
-      Queenie
-      Quetzal
-      Rasher
-      Redd
-      Resetti
-      Rex
-      Rhoda
-      Ribbot
-      Ricky
-      Rio
-      Rizzo
-      Roald
-      Robin
-      Rocco
-      Rolf
-      Rollo
-      Rosie
-      Rover
-      Rowan
-      Sable
-      Sable\ the\ Hedgehog
-      Saharah
-      Sally
-      Samson
-      Sandy
-      Savannah
-      Scoot
-      Snake
-      Snooty
-      Snowman
-      Spike
-      Spork
-      Sprocket
-      Static
-      Stella
-      Stinky
-      Stu
-      Sue\ E.
-      Sven
-      Sydney
-      T-Bone
-      Tabby
-      Tad
-      Tangy
-      Tank
-      Teddy
-      Tiara
-      Timmy\ and\ Tommy
-      Tom
-      Tom\ Nook
-      Tortimer
-      Truffles
-      Tutu
-      Twiggy
-      Twirp
-      Tybalt
-      Ursala
-      Valise
-      Velma
-      Vesta
-      Vladimir
-      Wart\ Jr.
-      Weber
-      Wendell
-      Winnie
-      Wisp
-      Wolfgang
-      Woolio
-      Yodel
-      Yuka
-      Zoe
-    )
+    class << self
+      def info
+        rows = table_rows
+        names = names(rows)
+        images = images(rows)
+        urls = urls(rows)
+        info_hash = {}
+
+        names.each.with_index do |name, i|
+          info_hash[name] = {
+            'url' => urls[i],
+            'image' => images[i]
+          }
+        end
+
+        info_hash
+
+        # Create hash with names as keys and image URLs as values.
+        # Hash[names(rows).zip(images(rows))]
+      end
+
+      # TODO: Maybe make private? Make it match images.
+      def names
+        table_rows.map { |row| row.at_css('td a').inner_text }
+      end
+
+      private
+
+      def images(rows)
+        rows.map { |row| row.css('td')[1].at_css('a')['href'] }
+      end
+
+      def urls(rows)
+        rows.map { |row| row.at_css('td a')['href'] }
+      end
+
+      def table_rows
+        doc = Nokogiri::HTML(open('http://animalcrossing.wikia.com/wiki/Villager_list_(New_Leaf)'))
+        table = doc.css('.WikiaArticle table').last
+        # Table does not have thead or tbody, so skip the headers.
+        table.css('tr').drop(1)
+      end
+    end
   end
 end
