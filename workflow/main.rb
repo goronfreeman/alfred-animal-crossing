@@ -13,12 +13,13 @@ module AlfredAC
   class Search
     include AlfredAC::Villagers
 
-    attr_reader :query, :category, :workflow
+    attr_reader :query, :category, :workflow, :info
 
     def initialize
-      @query = ARGV[0]
-      @category = ARGV[1]
+      @query = ARGV[0]&.downcase
+      @category = ARGV[1]&.downcase
       @workflow = Alfred3::Workflow.new
+      @info = AlfredAC::Villagers.info
     end
 
     def search
@@ -89,41 +90,42 @@ module AlfredAC
       find_columns(find_rows(find_table(query)))
     end
 
-    # TODO: Get villager URL from AlfredAC::Villagers.info
-    def url(villager)
-      "http://animalcrossing.wikia.com/wiki/#{villager}"
+    def base_url
+      'http://animalcrossing.wikia.com'
+    end
+
+    def full_url(villager)
+      suffix = info[villager]['url']
+      "#{base_url}#{suffix}"
     end
 
     def fetch_document(villager)
-      Nokogiri::HTML(open(url(villager)))
+      Nokogiri::HTML(open(full_url(villager)))
     end
 
     def find_matches(query)
-      AlfredAC::Villagers.info.keys.select { |name| name.downcase.start_with?(query.downcase) }
+      info.keys.select { |name| name.start_with?(query) }
     end
 
     def villager_match(name)
-      AlfredAC::Villagers.info.keys.include?(name.capitalize)
+      info.keys.include?(name)
     end
 
     def find_categories(data, category)
       data.select { |k, _v| k =~ Regexp.new(category, Regexp::IGNORECASE) }
     end
 
-    def join_name(villager)
-      villager.split.join('_')
-    end
-
     def icon_name(trait)
-      "img/#{trait.downcase.split.join('_')}.png"
+      "img/#{trait.split.join('_')}.png"
     end
 
     def villager_json(villager)
-      villager_url = url(join_name(villager))
+      villager_url = full_url(villager)
+      titleized_name = titleize(villager)
 
       workflow.result
-              .title(villager)
-              .autocomplete(villager)
+              .title(titleized_name)
+              .autocomplete(titleized_name)
               .quicklookurl(villager_url)
               .arg(villager_url)
               .text('copy', villager_url)
@@ -142,6 +144,14 @@ module AlfredAC
       workflow.result
               .title('No matches found!')
               .subtitle('Try something else')
+    end
+
+    def titleize(str)
+      regex = /[\s -]/
+
+      return str.capitalize unless str =~ regex
+      delimiter = str.each_char.select { |c| c =~ regex }
+      str.split(regex).map(&:capitalize).join(delimiter.first)
     end
   end
 end

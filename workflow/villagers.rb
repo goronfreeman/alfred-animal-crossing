@@ -8,22 +8,22 @@ module AlfredAC
         names = names(rows)
         urls = urls(rows)
         images = images(rows)
-        info_hash = {}
 
-        names.each.with_index do |name, i|
-          info_hash[name] = {
-            'url' => urls[i],
-            'image' => images[i],
-          }
+        {}.tap do |hash|
+          names.each.with_index do |name, i|
+            hash[name] = {
+              'url' => urls[i],
+              'image' => images[i]
+            }
+          end
         end
-
-        info_hash
       end
 
       private
 
       def names(rows)
-        rows.map { |row| row.at_css('td a').inner_text }
+        # Downcase to facilitate comparison.
+        rows.map { |row| row.at_css('td a').inner_text.downcase }
       end
 
       def urls(rows)
