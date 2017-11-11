@@ -6,10 +6,17 @@ $LOAD_PATH << 'info_parsers'
 
 require 'nokogiri'
 require 'alfred-3_workflow'
-require 'default_list_parser'
+
 require 'default_matcher'
-require 'villager_info_parser'
+
+require 'default_list_parser'
+require 'song_list_parser'
+
+require 'bug_info_parser'
 require 'fish_info_parser'
+require 'fossil_info_parser'
+require 'song_info_parser'
+require 'villager_info_parser'
 
 require 'open-uri'
 
@@ -26,7 +33,7 @@ class MatchJSON
 
   def find
     if matches
-      return find_attributes(matches.first) if matches.length == 1
+      return find_attributes(matches) if matches.is_a? String # TODO: Refactor?
       matches.each { |match| match_json(match) }
     else
       no_match_json
@@ -79,6 +86,7 @@ class MatchJSON
     "img/#{trait.split.join('_')}.png"
   end
 
+  # TODO: Properly titleize song names.
   def titleize(str)
     pattern = Regexp.new("[\s -]")
 

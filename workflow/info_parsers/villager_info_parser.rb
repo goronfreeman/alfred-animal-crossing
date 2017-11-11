@@ -3,7 +3,7 @@ require 'base_info_parser'
 
 class VillagerInfoParser < BaseInfoParser
   def parse(url)
-    find_columns(find_rows(find_table(url)))
+    super
   end
 
   private

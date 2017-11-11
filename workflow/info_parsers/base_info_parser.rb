@@ -18,17 +18,11 @@ class BaseInfoParser
     table.css('tr')
   end
 
-  def find_columns(rows)
-    {}.tap do |hash|
-      rows.each do |row|
-        columns = row.css('td')
-        next unless columns.size == 2 || subtable?(columns)
-        subtable?(columns) ? subtable_info(columns, hash) : table_info(columns, hash)
-      end
-    end
+  def find_columns(_rows)
+    raise 'Not implemented'
   end
 
-  def subtable?(columns)
+  def subtable?(_columns)
     raise 'Not implemented'
   end
 
@@ -36,7 +30,7 @@ class BaseInfoParser
     hash[columns.first.content.strip] = columns.last.content.strip
   end
 
-  def subtable_info(columns, hash)
+  def subtable_info(_columns, _hash)
     raise 'Not implemented'
   end
 

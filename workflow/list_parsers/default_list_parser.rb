@@ -1,7 +1,3 @@
-require 'pp'
-require 'nokogiri'
-require 'open-uri'
-
 class DefaultListParser
   def parse(list_url)
     rows   = table_rows(list_url)
@@ -28,7 +24,7 @@ class DefaultListParser
 
   def names(rows)
     # Downcase to facilitate comparison.
-    rows.map { |row| row.at_css('td a').inner_text.downcase }
+    rows.map { |row| row.at_css('td').inner_text.downcase }
   end
 
   def urls(rows)

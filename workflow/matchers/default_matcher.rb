@@ -1,6 +1,6 @@
 class DefaultMatcher
   def match(query, list)
-    return [query] if exact_match?(query, list)
+    return query if exact_match?(query, list)
     results = find_matches(query, list)
     return results if results.any?
     false
