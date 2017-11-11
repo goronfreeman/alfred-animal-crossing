@@ -1,8 +1,12 @@
-class VillagerListParser
+require 'pp'
+require 'nokogiri'
+require 'open-uri'
+
+class DefaultListParser
   def parse(list_url)
-    rows = table_rows(list_url)
-    names = names(rows)
-    urls = urls(rows)
+    rows   = table_rows(list_url)
+    names  = names(rows)
+    urls   = urls(rows)
     images = images(rows)
 
     {}.tap do |hash|
@@ -13,6 +17,14 @@ class VillagerListParser
   end
 
   private
+
+  def table_rows(list_url)
+    doc   = Nokogiri::HTML(open(list_url))
+    table = doc.css('#mw-content-text table')[2]
+
+    # Table does not have thead or tbody, so skip the headers.
+    table.css('tr').drop(1)
+  end
 
   def names(rows)
     # Downcase to facilitate comparison.
@@ -25,12 +37,5 @@ class VillagerListParser
 
   def images(rows)
     rows.map { |row| row.css('td')[1].at_css('a')['href'] }
-  end
-
-  def table_rows(list_url)
-    doc = Nokogiri::HTML(open(list_url))
-    table = doc.css('.WikiaArticle table').last
-    # Table does not have thead or tbody, so skip the headers.
-    table.css('tr').drop(1)
   end
 end
