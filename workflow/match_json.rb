@@ -9,9 +9,11 @@ require 'alfred-3_workflow'
 
 require 'default_matcher'
 
+require 'art_list_parser'
 require 'default_list_parser'
 require 'song_list_parser'
 
+require 'art_info_parser'
 require 'bug_info_parser'
 require 'fish_info_parser'
 require 'fossil_info_parser'
