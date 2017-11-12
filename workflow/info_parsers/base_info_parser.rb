@@ -19,11 +19,13 @@ class BaseInfoParser
   end
 
   def construct_hash(rows)
-    Hash[extract_info(rows, header_ranges.first, header_ranges.last, 0).zip(extract_info(rows, data_ranges.first, data_ranges.last, 1))]
+    keys = extract_info(rows, header_ranges.first, header_ranges.last, 0)
+    vals = extract_info(rows, data_ranges.first, data_ranges.last, 1)
+    Hash[keys.zip(vals)]
   end
 
-  def horizontal(rows, range)
-    format_arr(range.map { |i|rows.at(i).css('td').map(&:inner_text) }.flatten)
+  def horizontal(rows, arr)
+    format_arr(arr.map { |i|rows.at(i).css('td').map(&:inner_text) }.flatten)
   end
 
   def vertical(rows, range, index)
@@ -39,10 +41,22 @@ class BaseInfoParser
   end
 
   def header_ranges
-    raise 'Not implemented'
+    [horz_range, vert_range]
   end
 
   def data_ranges
-    raise 'Not implemented'
+    [increment(horz_range), vert_range]
+  end
+
+  def increment(range)
+    range.map { |i| i + 1 }
+  end
+
+  def horz_range
+    raise 'Not implemented in child class'
+  end
+
+  def vert_range
+    raise 'Not implemented in child class'
   end
 end

@@ -8,13 +8,11 @@ class ArtInfoParser < BaseInfoParser
 
   private
 
-  def find_columns(rows)
-    {}.tap do |hash|
-      rows.each do |row|
-        columns = row.css('td')
-        next unless columns.size == 2
-        table_info(columns, hash)
-      end
-    end
+  def horz_range
+    []
+  end
+
+  def vert_range
+    (2..5)
   end
 end

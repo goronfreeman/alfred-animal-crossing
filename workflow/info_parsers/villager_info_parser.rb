@@ -8,11 +8,11 @@ class VillagerInfoParser < BaseInfoParser
 
   private
 
-  def header_ranges
-    [(4..4), (6..15)]
+  def horz_range
+    [4]
   end
 
-  def data_ranges
-    [(5..5), (6..15)]
+  def vert_range
+    (6..15)
   end
 end

@@ -9,5 +9,5 @@ MatchJSON.new(
   list_url: Bugs::LIST_URL,
   list_parser: DefaultListParser.new,
   matcher: DefaultMatcher.new,
-  info_parser: BugInfoParser.new
+  info_parser: CreatureInfoParser.new
 ).find

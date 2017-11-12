@@ -1,34 +1,31 @@
-require 'nokogiri'
-require 'open-uri'
+$LOAD_PATH << '.'
+require 'default_list_parser'
 
-class SongListParser
+class SongListParser < DefaultListParser
   def parse(list_url)
-    rows  = list_items(list_url)
-    names = names(rows)
-    urls  = urls(rows)
-
-    {}.tap do |hash|
-      names.each.with_index do |name, i|
-        hash[name] = { url: urls[i] }
-      end
-    end
+    super
   end
 
   private
 
-  def list_items(list_url)
+  # This is actually an unordered list.
+  def table_rows(list_url)
     doc  = Nokogiri::HTML(open(list_url))
     list = doc.at_css('#mw-content-text ol')
 
     list.css('li')
   end
 
-  def names(items)
+  def names(rows)
     # Downcase to facilitate comparison.
-    items.map { |item| item.inner_text.downcase.delete("\n") }
+    rows.map { |row| row.inner_text.downcase.strip.chomp }
   end
 
-  def urls(items)
-    items.map { |item| item.at_css('a')['href'] }
+  def urls(rows)
+    rows.map { |row| row.at_css('a')['href'] }
+  end
+
+  def images(_rows)
+    []
   end
 end
