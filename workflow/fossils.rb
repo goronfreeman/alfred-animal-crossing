@@ -7,7 +7,7 @@ end
 
 MatchJSON.new(
   list_url: Fossils::LIST_URL,
-  list_parser: DefaultListParser.new,
+  list_parser: FossilListParser.new,
   matcher: DefaultMatcher.new,
   info_parser: FossilInfoParser.new
 ).find
