@@ -24,7 +24,7 @@ class DefaultListParser
 
   def names(rows)
     # Downcase to facilitate comparison.
-    rows.map { |row| row.at_css('td').inner_text.downcase }
+    rows.map { |row| row.at_css('td').inner_text.downcase.strip.chomp }
   end
 
   def urls(rows)

@@ -8,27 +8,11 @@ class VillagerInfoParser < BaseInfoParser
 
   private
 
-  def find_columns(rows)
-    {}.tap do |hash|
-      rows.each do |row|
-        columns = row.css('td')
-        next unless columns.size == 2 || subtable?(columns)
-        subtable?(columns) ? subtable_info(columns, hash) : table_info(columns, hash)
-      end
-    end
+  def header_ranges
+    [(4..4), (6..15)]
   end
 
-  def subtable?(columns)
-    columns.css('table tr').any?
-  end
-
-  def subtable_info(columns, hash)
-    rows = columns.css('table tr')
-    keys = format_arr(rows.first)
-    vals = format_arr(rows.last)
-
-    keys.each.with_index do |k, i|
-      hash[k] = vals[i]
-    end
+  def data_ranges
+    [(5..5), (6..15)]
   end
 end

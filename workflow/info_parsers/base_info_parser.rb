@@ -1,6 +1,6 @@
 class BaseInfoParser
   def parse(url)
-    find_columns(find_rows(find_table(url)))
+    construct_hash(find_rows(find_table(url)))
   end
 
   private
@@ -18,23 +18,31 @@ class BaseInfoParser
     table.css('tr')
   end
 
-  def find_columns(_rows)
-    raise 'Not implemented'
+  def construct_hash(rows)
+    Hash[extract_info(rows, header_ranges.first, header_ranges.last, 0).zip(extract_info(rows, data_ranges.first, data_ranges.last, 1))]
   end
 
-  def subtable?(_columns)
-    raise 'Not implemented'
+  def horizontal(rows, range)
+    format_arr(range.map { |i|rows.at(i).css('td').map(&:inner_text) }.flatten)
   end
 
-  def table_info(columns, hash)
-    hash[columns.first.content.strip] = columns.last.content.strip
-  end
-
-  def subtable_info(_columns, _hash)
-    raise 'Not implemented'
+  def vertical(rows, range, index)
+    format_arr(range.map { |i| rows.at(i).css('td').map(&:inner_text).at(index) })
   end
 
   def format_arr(arr)
-    arr.content.delete("\n").strip.split
+    arr.map { |str| str.strip.chomp }
+  end
+
+  def extract_info(rows, horz_range, vert_range, index)
+    horizontal(rows, horz_range) + vertical(rows, vert_range, index)
+  end
+
+  def header_ranges
+    raise 'Not implemented'
+  end
+
+  def data_ranges
+    raise 'Not implemented'
   end
 end

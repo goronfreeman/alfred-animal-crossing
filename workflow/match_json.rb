@@ -48,15 +48,15 @@ class MatchJSON
   private
 
   def match_json(match)
-    match_url = match_url(match)
+    url = url(match)
     titleized_name = titleize(match)
 
     workflow.result
             .title(titleized_name)
             .autocomplete(titleized_name)
-            .quicklookurl(match_url)
-            .arg(match_url)
-            .text('copy', match_url)
+            .quicklookurl(url)
+            .arg(url)
+            .text('copy', url)
   end
 
   def attribute_json(match, attribute, value)
@@ -64,7 +64,7 @@ class MatchJSON
             .title(attribute)
             .subtitle(value)
             .icon(icon_path(attribute))
-            .arg(match_url(match))
+            .arg(url(match))
   end
 
   def no_match_json
@@ -74,11 +74,11 @@ class MatchJSON
   end
 
   def find_attributes(match)
-    attributes = info_parser.parse(match_url(match))
+    attributes = info_parser.parse(url(match))
     attributes.each { |k, v| attribute_json(match, k, v) }
   end
 
-  def match_url(match)
+  def url(match)
     base   = 'http://animalcrossing.wikia.com'
     suffix = list[match][:url]
 
