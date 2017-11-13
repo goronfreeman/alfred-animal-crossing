@@ -23,8 +23,7 @@ class DefaultListParser
   end
 
   def names(rows)
-    # Downcase to facilitate comparison.
-    rows.map { |row| row.at_css('td').inner_text.downcase.strip.chomp }
+    rows.map { |row| extract_text(row.at_css('td')) }
   end
 
   def urls(rows)
@@ -33,5 +32,10 @@ class DefaultListParser
 
   def images(rows)
     rows.map { |row| row.css('td')[1].at_css('a')['href'] }
+  end
+
+  def extract_text(row)
+    # Downcase to facilitate comparison.
+    row.inner_text.downcase.strip.chomp
   end
 end

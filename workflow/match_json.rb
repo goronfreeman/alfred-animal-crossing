@@ -35,7 +35,7 @@ class MatchJSON
 
   def find
     if matches
-      return find_attributes(matches) if matches.is_a? String # TODO: Refactor?
+      return find_attributes(matches) if matches.is_a? String
       matches.each { |match| match_json(match) }
     else
       no_match_json

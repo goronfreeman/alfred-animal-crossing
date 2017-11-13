@@ -17,8 +17,7 @@ class SongListParser < DefaultListParser
   end
 
   def names(rows)
-    # Downcase to facilitate comparison.
-    rows.map { |row| row.inner_text.downcase.strip.chomp }
+    rows.map { |row| extract_text(row) }
   end
 
   def urls(rows)

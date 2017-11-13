@@ -1,14 +1,9 @@
-class ArtListParser
-  def parse(list_url)
-    rows   = table_rows(list_url)
-    names  = names(rows)
-    urls   = urls(rows)
+$LOAD_PATH << '.'
+require 'default_list_parser'
 
-    {}.tap do |hash|
-      names.each.with_index do |name, i|
-        hash[name] = { url: urls[i] }
-      end
-    end
+class ArtListParser < DefaultListParser
+  def parse(list_url)
+    super
   end
 
   private
@@ -22,12 +17,7 @@ class ArtListParser
     table.css('tr').reject.with_index { |_el, i| [0, 24].include?(i) }
   end
 
-  def names(rows)
-    # Downcase to facilitate comparison.
-    rows.map { |row| row.at_css('td').inner_text.downcase.chomp }
-  end
-
-  def urls(rows)
-    rows.map { |row| row.at_css('td a')['href'] }
+  def images(_rows)
+    []
   end
 end
