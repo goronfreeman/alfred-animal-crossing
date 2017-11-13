@@ -2,6 +2,10 @@
 
 require_relative 'base_info_parser'
 
+# TODO: Filter 'Characters on cover' by game.
+#       Capitalize song names.
+#       Handle song names with apostrophe.
+
 class SongInfoParser < BaseInfoParser
   def parse(url)
     super

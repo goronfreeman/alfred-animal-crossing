@@ -85,11 +85,11 @@ class MatchJSON
   end
 
   def titleize(str)
-    pattern = Regexp.new("[\s -]")
+    pattern = /[\s -]/
     return str.capitalize unless str =~ pattern
 
-    # Handle song titles.
-    str.gsub('k.k.', 'K.K.') if str.include?('k.k.')
+    # TODO: Handle song titles.
+    # str = str.gsub('k.k.', 'K.K.') if str.include?('k.k.')
 
     delimiter = str.each_char.select { |c| c =~ pattern }
     str.split(pattern).map(&:capitalize).join(delimiter.first)
