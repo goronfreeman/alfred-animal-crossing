@@ -1,8 +1,9 @@
-$LOAD_PATH << '.'
-require 'match_json'
+# frozen_string_literal: true
+
+require_relative '../match_json'
 
 class Songs
-  LIST_URL = 'http://animalcrossing.wikia.com/wiki/K.K._Slider_song_list_(New_Leaf)'.freeze
+  LIST_URL = 'http://animalcrossing.wikia.com/wiki/K.K._Slider_song_list_(New_Leaf)'
 end
 
 MatchJSON.new(

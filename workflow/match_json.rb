@@ -1,35 +1,31 @@
-$LOAD_PATH << 'lib/nokogiri'
-$LOAD_PATH << 'lib/alfred-workflow-ruby'
-$LOAD_PATH << 'list_parsers'
-$LOAD_PATH << 'matchers'
-$LOAD_PATH << 'info_parsers'
-
-require 'nokogiri'
-require 'alfred-3_workflow'
-
-require 'default_matcher'
-
-require 'art_list_parser'
-require 'default_list_parser'
-require 'fossil_list_parser'
-require 'song_list_parser'
-
-require 'art_info_parser'
-require 'creature_info_parser'
-require 'fossil_info_parser'
-require 'song_info_parser'
-require 'villager_info_parser'
+# frozen_string_literal: true
 
 require 'open-uri'
+
+require_relative 'lib/nokogiri/nokogiri'
+require_relative 'lib/alfred-workflow-ruby/alfred-3_workflow'
+
+require_relative 'matchers/default_matcher'
+
+require_relative 'list_parsers/art_list_parser'
+require_relative 'list_parsers/default_list_parser'
+require_relative 'list_parsers/fossil_list_parser'
+require_relative 'list_parsers/song_list_parser'
+
+require_relative 'info_parsers/art_info_parser'
+require_relative 'info_parsers/creature_info_parser'
+require_relative 'info_parsers/fossil_info_parser'
+require_relative 'info_parsers/song_info_parser'
+require_relative 'info_parsers/villager_info_parser'
 
 class MatchJSON
   attr_reader :workflow, :list, :matches, :info_parser
 
   def initialize(list_url:, list_parser:, matcher:, info_parser:)
-    query = ARGV.join(' ').downcase
-    @workflow = Alfred3::Workflow.new
-    @list = list_parser.parse(list_url)
-    @matches = matcher.match(query, list)
+    query        = ARGV.join(' ').downcase
+    @workflow    = Alfred3::Workflow.new
+    @list        = list_parser.parse(list_url)
+    @matches     = matcher.match(query, list)
     @info_parser = info_parser
   end
 
@@ -47,7 +43,7 @@ class MatchJSON
   private
 
   def match_json(match)
-    url = url(match)
+    url            = url(match)
     titleized_name = titleize(match)
 
     workflow.result
@@ -88,11 +84,13 @@ class MatchJSON
     "img/#{trait.split.join('_')}.png"
   end
 
-  # TODO: Properly titleize song names.
   def titleize(str)
     pattern = Regexp.new("[\s -]")
-
     return str.capitalize unless str =~ pattern
+
+    # Handle song titles.
+    str.gsub('k.k.', 'K.K.') if str.include?('k.k.')
+
     delimiter = str.each_char.select { |c| c =~ pattern }
     str.split(pattern).map(&:capitalize).join(delimiter.first)
   end

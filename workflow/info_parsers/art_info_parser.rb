@@ -1,5 +1,6 @@
-$LOAD_PATH << '.'
-require 'base_info_parser'
+# frozen_string_literal: true
+
+require_relative 'base_info_parser'
 
 class ArtInfoParser < BaseInfoParser
   def parse(url)

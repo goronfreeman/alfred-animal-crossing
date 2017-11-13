@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class DefaultMatcher
   def match(query, list)
     return query if exact_match?(query, list)

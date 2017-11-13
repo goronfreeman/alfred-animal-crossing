@@ -1,7 +1,8 @@
-$LOAD_PATH << '.'
-require 'default_list_parser'
+# frozen_string_literal: true
 
-class SongListParser < DefaultListParser
+require_relative 'base_list_parser'
+
+class SongListParser < BaseListParser
   def parse(list_url)
     super
   end
@@ -9,11 +10,12 @@ class SongListParser < DefaultListParser
   private
 
   # This is actually an unordered list.
-  def table_rows(list_url)
-    doc  = Nokogiri::HTML(open(list_url))
-    list = doc.at_css('#mw-content-text ol')
+  def table(doc)
+    doc.at_css('#mw-content-text ol')
+  end
 
-    list.css('li')
+  def rows(table)
+    table.css('li')
   end
 
   def names(rows)
@@ -22,9 +24,5 @@ class SongListParser < DefaultListParser
 
   def urls(rows)
     rows.map { |row| row.at_css('a')['href'] }
-  end
-
-  def images(_rows)
-    []
   end
 end

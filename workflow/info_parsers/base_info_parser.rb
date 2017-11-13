@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class BaseInfoParser
   def parse(url)
     construct_hash(find_rows(find_table(url)))
@@ -25,7 +27,7 @@ class BaseInfoParser
   end
 
   def horizontal(rows, arr)
-    format_arr(arr.map { |i|rows.at(i).css('td').map(&:inner_text) }.flatten)
+    format_arr(arr.map { |i| rows.at(i).css('td').map(&:inner_text) }.flatten)
   end
 
   def vertical(rows, range, index)
