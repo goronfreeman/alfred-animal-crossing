@@ -14,8 +14,8 @@ class SongListParser < BaseListParser
     doc.at_css('#mw-content-text ol')
   end
 
-  def rows(table)
-    table.css('li')
+  def headers
+    []
   end
 
   def names(rows)

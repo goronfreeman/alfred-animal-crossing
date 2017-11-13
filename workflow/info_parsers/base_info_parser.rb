@@ -21,8 +21,10 @@ class BaseInfoParser
   end
 
   def construct_hash(rows)
-    keys = extract_info(rows, header_ranges.first, header_ranges.last, 0)
-    vals = extract_info(rows, data_ranges.first, data_ranges.last, 1)
+    keys, vals = %w(header data).map.with_index do |str, i|
+      extract_info(rows, send("#{str}_ranges").first, send("#{str}_ranges").last, i)
+    end
+
     Hash[keys.zip(vals)]
   end
 

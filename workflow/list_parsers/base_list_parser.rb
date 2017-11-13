@@ -19,8 +19,13 @@ class BaseListParser
     raise 'Not implemented in child class'
   end
 
-  def rows(_table)
+  def headers
     raise 'Not implemented in child class'
+  end
+
+  def rows(table)
+    # Tables do not have thead or tbody, so skip the headers.
+    table.css('tr').reject.with_index { |_el, i| headers.include?(i) }
   end
 
   def table_rows(list_url)
