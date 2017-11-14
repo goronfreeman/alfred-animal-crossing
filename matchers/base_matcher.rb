@@ -1,4 +1,9 @@
-# frozen_string_literal: true
+# Child classes are expected to define #find_matches.
+#
+# Returns an Array containing all matching results.
+# def find_matches(query, list)
+#   list.keys.select { |name| name.start_with?(query) }
+# end
 
 class BaseMatcher
   def match(query, list)
@@ -17,9 +22,5 @@ class BaseMatcher
 
   def exact_match?(query, list)
     list.keys.include?(query)
-  end
-
-  def find_matches(_query, _list)
-    raise NotImplementedError, 'Not implemented in child class'
   end
 end

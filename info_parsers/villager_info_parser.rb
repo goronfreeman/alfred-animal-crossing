@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 require_relative 'base_info_parser'
 
 class VillagerInfoParser < BaseInfoParser
@@ -9,11 +7,11 @@ class VillagerInfoParser < BaseInfoParser
 
   private
 
-  def horz_range
+  def horz_header_indices
     [4]
   end
 
-  def vert_range
+  def vert_header_indices
     (6..15)
   end
 end

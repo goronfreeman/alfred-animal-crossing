@@ -1,9 +1,7 @@
-# frozen_string_literal: true
-
 require_relative '../match_json'
 
 class Art
-  LIST_URL = 'http://animalcrossing.wikia.com/wiki/Art_(New_Leaf)'
+  LIST_URL = 'http://animalcrossing.wikia.com/wiki/Art_(New_Leaf)'.freeze
 end
 
 MatchJSON.new(

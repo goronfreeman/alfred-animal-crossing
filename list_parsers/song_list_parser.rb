@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 require_relative 'base_list_parser'
 
 class SongListParser < BaseListParser

@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 require_relative 'base_matcher'
 
 class SoftMatcher < BaseMatcher
@@ -10,6 +8,6 @@ class SoftMatcher < BaseMatcher
   private
 
   def find_matches(query, list)
-    list.keys.select { |name| name =~ Regexp.new(query, Regexp::IGNORECASE) }
+    list.keys.select { |name| name =~ /#{query}/i }
   end
 end

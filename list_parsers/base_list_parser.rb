@@ -1,4 +1,14 @@
-# frozen_string_literal: true
+# Child classes are expected to define #table and #headers.
+#
+# Returns a Nokogiri::XML::NodeSet containing the category table.
+# def table(doc)
+#   doc.css('#mw-content-text .wikitable')
+# end
+#
+# Returns an Enumerable containing the indices of the table headers.
+# def headers
+#   [0, 24]
+# end
 
 class BaseListParser
   def parse(list_url)
@@ -14,14 +24,6 @@ class BaseListParser
   end
 
   private
-
-  def table(_doc)
-    raise 'Not implemented in child class'
-  end
-
-  def headers
-    raise 'Not implemented in child class'
-  end
 
   def rows(table)
     # Tables do not have thead or tbody, so skip the headers.

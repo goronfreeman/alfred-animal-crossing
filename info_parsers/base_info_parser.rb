@@ -1,4 +1,14 @@
-# frozen_string_literal: true
+# Child classes are expected to define #horz_header_indices and #vert_header_indices.
+#
+# Returns an Enumerable containing the indices of the horizontal table headers.
+# def horz_header_indices
+#   [6, 8, 10]
+# end
+#
+# Returns an Enumerable containing the indices of the vertical table headers.
+# def vert_header_indices
+#   (12..16)
+# end
 
 class BaseInfoParser
   def parse(url)
@@ -22,7 +32,7 @@ class BaseInfoParser
 
   def construct_hash(rows)
     keys, vals = %w(header data).map.with_index do |str, i|
-      extract_info(rows, send("#{str}_ranges").first, send("#{str}_ranges").last, i)
+      extract_info(rows, send("#{str}_ranges").at(0), send("#{str}_ranges").at(1), i)
     end
 
     Hash[keys.zip(vals)]
@@ -40,27 +50,19 @@ class BaseInfoParser
     arr.map { |str| str.strip.chomp }
   end
 
-  def extract_info(rows, horz_range, vert_range, index)
-    horizontal(rows, horz_range) + vertical(rows, vert_range, index)
+  def extract_info(rows, horz_header_indices, vert_header_indices, index)
+    horizontal(rows, horz_header_indices) + vertical(rows, vert_header_indices, index)
   end
 
   def header_ranges
-    [horz_range, vert_range]
+    [horz_header_indices, vert_header_indices]
   end
 
   def data_ranges
-    [increment(horz_range), vert_range]
+    [increment(horz_header_indices), vert_header_indices]
   end
 
   def increment(range)
     range.map { |i| i + 1 }
-  end
-
-  def horz_range
-    raise 'Not implemented in child class'
-  end
-
-  def vert_range
-    raise 'Not implemented in child class'
   end
 end

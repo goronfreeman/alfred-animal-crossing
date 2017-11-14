@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 require_relative 'base_info_parser'
 
 class CreatureInfoParser < BaseInfoParser
@@ -9,11 +7,11 @@ class CreatureInfoParser < BaseInfoParser
 
   private
 
-  def horz_range
+  def horz_header_indices
     [6, 8, 10]
   end
 
-  def vert_range
+  def vert_header_indices
     (12..16)
   end
 end

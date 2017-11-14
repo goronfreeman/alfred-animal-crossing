@@ -1,10 +1,4 @@
-# frozen_string_literal: true
-
 require_relative 'base_info_parser'
-
-# TODO: Filter 'Characters on cover' by game.
-#       Capitalize song names.
-#       Handle song names with apostrophe.
 
 class SongInfoParser < BaseInfoParser
   def parse(url)
@@ -18,11 +12,11 @@ class SongInfoParser < BaseInfoParser
     fetch_document(url).at_css('.WikiaArticle table:contains("Games")')
   end
 
-  def horz_range
+  def horz_header_indices
     []
   end
 
-  def vert_range
+  def vert_header_indices
     (2..5)
   end
 end
