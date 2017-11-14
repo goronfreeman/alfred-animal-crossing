@@ -89,8 +89,5 @@ class MatchJSON
 
     delimiter = str.each_char.select { |c| c =~ pattern }
     str.split(pattern).map(&:capitalize).join(delimiter.first)
-
-    # Handle song titles.
-    # str.gsub('k.', 'K.') if str.include?('k.')
   end
 end
