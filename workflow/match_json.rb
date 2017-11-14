@@ -6,6 +6,7 @@ require_relative 'lib/nokogiri/nokogiri'
 require_relative 'lib/alfred-workflow-ruby/alfred-3_workflow'
 
 require_relative 'matchers/default_matcher'
+require_relative 'matchers/soft_matcher.rb'
 
 require_relative 'list_parsers/art_list_parser'
 require_relative 'list_parsers/default_list_parser'
@@ -21,7 +22,7 @@ require_relative 'info_parsers/villager_info_parser'
 class MatchJSON
   attr_reader :workflow, :list, :matches, :info_parser
 
-  def initialize(list_url:, list_parser:, matcher:, info_parser:)
+  def initialize(list_url, list_parser, matcher, info_parser)
     query        = ARGV.join(' ').downcase
     @workflow    = Alfred3::Workflow.new
     @list        = list_parser.parse(list_url)
@@ -88,10 +89,10 @@ class MatchJSON
     pattern = /[\s -]/
     return str.capitalize unless str =~ pattern
 
-    # TODO: Handle song titles.
-    # str = str.gsub('k.k.', 'K.K.') if str.include?('k.k.')
-
     delimiter = str.each_char.select { |c| c =~ pattern }
     str.split(pattern).map(&:capitalize).join(delimiter.first)
+
+    # Handle song titles.
+    # str.gsub('k.', 'K.') if str.include?('k.')
   end
 end

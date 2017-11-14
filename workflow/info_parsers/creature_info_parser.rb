@@ -9,11 +9,11 @@ class CreatureInfoParser < BaseInfoParser
 
   private
 
-  def header_ranges
-    [[6, 8, 10], (12..16)]
+  def horz_range
+    [6, 8, 10]
   end
 
-  def data_ranges
-    [[7, 9, 11], (12..16)]
+  def vert_range
+    (12..16)
   end
 end

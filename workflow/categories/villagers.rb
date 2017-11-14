@@ -7,8 +7,8 @@ class Villagers
 end
 
 MatchJSON.new(
-  list_url: Villagers::LIST_URL,
-  list_parser: DefaultListParser.new,
-  matcher: DefaultMatcher.new,
-  info_parser: VillagerInfoParser.new
+  Villagers::LIST_URL,
+  DefaultListParser.new,
+  DefaultMatcher.new,
+  VillagerInfoParser.new
 ).find

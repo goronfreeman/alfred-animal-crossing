@@ -2,7 +2,7 @@
 
 require_relative 'base_matcher'
 
-class DefaultMatcher < BaseMatcher
+class SoftMatcher < BaseMatcher
   def match(query, list)
     super
   end
@@ -10,6 +10,6 @@ class DefaultMatcher < BaseMatcher
   private
 
   def find_matches(query, list)
-    list.keys.select { |name| name.start_with?(query) }
+    list.keys.select { |name| name =~ Regexp.new(query, Regexp::IGNORECASE) }
   end
 end

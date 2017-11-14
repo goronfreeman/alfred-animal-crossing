@@ -7,8 +7,8 @@ class Art
 end
 
 MatchJSON.new(
-  list_url: Art::LIST_URL,
-  list_parser: ArtListParser.new,
-  matcher: DefaultMatcher.new,
-  info_parser: ArtInfoParser.new
+  Art::LIST_URL,
+  ArtListParser.new,
+  SoftMatcher.new,
+  ArtInfoParser.new
 ).find

@@ -7,8 +7,8 @@ class Songs
 end
 
 MatchJSON.new(
-  list_url: Songs::LIST_URL,
-  list_parser: SongListParser.new,
-  matcher: DefaultMatcher.new,
-  info_parser: SongInfoParser.new
+  Songs::LIST_URL,
+  SongListParser.new,
+  SoftMatcher.new,
+  SongInfoParser.new
 ).find

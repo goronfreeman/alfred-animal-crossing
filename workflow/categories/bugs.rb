@@ -7,8 +7,8 @@ class Bugs
 end
 
 MatchJSON.new(
-  list_url: Bugs::LIST_URL,
-  list_parser: DefaultListParser.new,
-  matcher: DefaultMatcher.new,
-  info_parser: CreatureInfoParser.new
+  Bugs::LIST_URL,
+  DefaultListParser.new,
+  DefaultMatcher.new,
+  CreatureInfoParser.new
 ).find

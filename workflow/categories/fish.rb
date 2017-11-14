@@ -7,8 +7,8 @@ class Fish
 end
 
 MatchJSON.new(
-  list_url: Fish::LIST_URL,
-  list_parser: DefaultListParser.new,
-  matcher: DefaultMatcher.new,
-  info_parser: CreatureInfoParser.new
+  Fish::LIST_URL,
+  DefaultListParser.new,
+  SoftMatcher.new,
+  CreatureInfoParser.new
 ).find
